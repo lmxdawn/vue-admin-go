@@ -1,0 +1,22 @@
+app:
+  port: 10001
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  db: vue-admin-go
+  user_name: root
+  password: root
+  max_idle_conn: 10
+  max_open_conn: 256
+  conn_max_life_time: 600
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password:
+  db: 1
+  dial_timeout: 10
+  read_timeout: 10
+  write_timeout: 10
+  pool_size: 256

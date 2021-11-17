@@ -1,0 +1,78 @@
+definitions:
+  req.LoginEmailPwdReq:
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      pwd:
+        description: 密码
+        type: string
+    required:
+    - email
+    - pwd
+    type: object
+  res.LoginInfoRes:
+    properties:
+      token:
+        description: 登录token
+        type: string
+      uid:
+        description: 用户ID
+        type: integer
+    type: object
+  res.Response:
+    properties:
+      code:
+        description: 错误code码
+        type: integer
+      data:
+        description: 成功时返回的对象
+      message:
+        description: 错误信息
+        type: string
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /login/byEmailPwd:
+    post:
+      parameters:
+      - description: 登录参数
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/req.LoginEmailPwdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.LoginInfoRes'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 邮箱加密码登录
+      tags:
+      - 授权
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: x-token
+    type: apiKey
+swagger: "2.0"
