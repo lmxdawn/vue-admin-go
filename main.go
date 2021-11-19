@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/lmxdawn/vue-admin-go/internal/config"
-	"github.com/lmxdawn/vue-admin-go/internal/version"
+	"github.com/lmxdawn/vue-admin-go/internal"
 	"github.com/lmxdawn/vue-admin-go/model"
 	"github.com/lmxdawn/vue-admin-go/router"
 	"github.com/urfave/cli"
@@ -51,17 +50,17 @@ func main() {
 	app.Action = func(c *cli.Context) error {
 
 		if printVersion {
-			fmt.Printf("{%#v}", version.Get())
+			fmt.Printf("{%#v}", internal.Get())
 			return nil
 		}
 
 		conf := c.String("conf")
-		err := config.Init(conf)
+		err := internal.Init(conf)
 		if err != nil {
 			return err
 		}
 
-		err = model.Database(config.Config.MySQL)
+		err = model.Database(internal.Config.MySQL)
 		if err != nil {
 			return err
 		}
@@ -71,7 +70,7 @@ func main() {
 			server.GET("/swagger/*any", swagHandler)
 		}
 
-		server.Run(fmt.Sprintf(":%v", config.Config.App.Port))
+		server.Run(fmt.Sprintf(":%v", internal.Config.App.Port))
 
 		return nil
 	}

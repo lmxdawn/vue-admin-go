@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lmxdawn/vue-admin-go/internal/code"
 	"github.com/lmxdawn/vue-admin-go/pkg/util"
 	"github.com/lmxdawn/vue-admin-go/res"
 )
@@ -17,7 +16,7 @@ func AuthRequired(required bool) gin.HandlerFunc {
 		uid, err := util.VerifyToken(token)
 		if required && err != nil {
 			c.Abort()
-			res.APIResponse(c, code.ErrToken, nil)
+			res.APIResponse(c, res.ErrToken, nil)
 		}
 
 		c.Set("uid", uid)

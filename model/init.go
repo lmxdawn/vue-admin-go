@@ -2,7 +2,7 @@ package model
 
 import (
 	"fmt"
-	"github.com/lmxdawn/vue-admin-go/internal/config"
+	"github.com/lmxdawn/vue-admin-go/internal"
 	"github.com/rs/zerolog/log"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -13,7 +13,7 @@ import (
 var DB *gorm.DB
 
 // Database ...
-func Database(mysqlConfig config.MySQLConfig) error {
+func Database(mysqlConfig internal.MySQLConfig) error {
 	log.Info().Msgf("mysql %v", mysqlConfig)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		mysqlConfig.UserName,

@@ -85,12 +85,22 @@ var doc = `{
             "type": "object",
             "required": [
                 "email",
+                "limit",
+                "page",
                 "pwd"
             ],
             "properties": {
                 "email": {
                     "description": "邮箱",
                     "type": "string"
+                },
+                "limit": {
+                    "description": "每页返回多少",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "页数",
+                    "type": "integer"
                 },
                 "pwd": {
                     "description": "密码",
@@ -101,6 +111,9 @@ var doc = `{
         "res.LoginInfoRes": {
             "type": "object",
             "properties": {
+                "time": {
+                    "type": "string"
+                },
                 "token": {
                     "description": "登录token",
                     "type": "string"

@@ -1,4 +1,4 @@
-package config
+package internal
 
 import (
 	"github.com/jinzhu/configor"
