@@ -20,9 +20,10 @@ type AuthAdmin struct {
 	Status        int        // 用户状态 0：禁用； 1：正常 ；2：未验证
 }
 
-func AuthAdminListPage(q req.AuthAdminQueryReq) ([]AuthAdmin, error) {
+func AuthAdminListPage(q req.AuthAdminQueryReq) (int64, []AuthAdmin, error) {
 	var authAdmins []AuthAdmin
 	offset := (q.Page - 1) * q.Limit
+	fmt.Println("33333", DB)
 	db := DB.Select("id,username,avatar,tel,email,status,last_login_ip,last_login_time,create_time")
 	if q.Ids != nil && len(q.Ids) != 0 {
 		db = db.Where("id IN ? ", q.Ids)
@@ -35,9 +36,11 @@ func AuthAdminListPage(q req.AuthAdminQueryReq) ([]AuthAdmin, error) {
 	}
 	err := db.Offset(offset).Limit(q.Limit).Order("id DESC").Find(&authAdmins).Error
 	if err != nil {
-		return authAdmins, err
+		return 0, authAdmins, err
 	}
-	return authAdmins, nil
+	var total int64
+	db.Count(&total)
+	return 0, authAdmins, nil
 }
 
 func AuthAdminFindByUserName(username string) (*AuthAdmin, error) {

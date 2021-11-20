@@ -17,7 +17,7 @@ type AuthRole struct {
 	Listorder  int        // 排序，优先级，越小优先级越高
 }
 
-func AuthRoleListPage(q req.AuthRoleQueryReq) ([]AuthRole, error) {
+func AuthRoleListPage(q req.AuthRoleQueryReq) (int64, []AuthRole, error) {
 	var authRoles []AuthRole
 	offset := (q.Page - 1) * q.Limit
 	db := DB.Select("id,`name`,status,remark,create_time,listorder")
@@ -29,12 +29,14 @@ func AuthRoleListPage(q req.AuthRoleQueryReq) ([]AuthRole, error) {
 	}
 	err := db.Offset(offset).Limit(q.Limit).Order("listorder DESC").Find(&authRoles).Error
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	return authRoles, nil
+	var total int64
+	db.Count(&total)
+	return total, authRoles, nil
 }
 
-func AuthRoleListRolePage(q req.AuthRoleQueryReq) ([]AuthRole, error) {
+func AuthRoleListRolePage(q req.AuthRoleQueryReq) (int64, []AuthRole, error) {
 	var authRoles []AuthRole
 	offset := (q.Page - 1) * q.Limit
 	db := DB.Select("id,`name`")
@@ -43,9 +45,11 @@ func AuthRoleListRolePage(q req.AuthRoleQueryReq) ([]AuthRole, error) {
 	}
 	err := db.Offset(offset).Limit(q.Limit).Order("listorder DESC").Find(&authRoles).Error
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	return authRoles, nil
+	var total int64
+	db.Count(&total)
+	return total, authRoles, nil
 }
 
 func AuthRoleFindByName(name string) (*AuthRole, error) {

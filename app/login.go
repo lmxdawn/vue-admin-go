@@ -24,7 +24,7 @@ func ByEmailPwd(c *gin.Context) {
 		return
 	}
 
-	if q.Email == "" || q.Pwd == "" {
+	if q.UserName == "" || q.Pwd == "" {
 		res.APIResponse(c, res.ErrParam, nil)
 	}
 
